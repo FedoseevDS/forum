@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Photo, Template } from './styles';
-import Avatar from '../../assets/img/avatar.jpg';
+import Avatar from 'assets/img/avatar.jpg';
 
 export const Profile = () => (
   <Layout.Content>

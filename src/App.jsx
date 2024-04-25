@@ -1,29 +1,35 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Header } from './components/header';
-import { Main } from './pages/main';
 import { ConfigProvider } from 'antd';
-import { theme } from './const/theme';
-import { Profile } from './pages/profile';
 import { Wrapper } from './styles/global';
 import { Provider } from 'react-redux';
-import store from './store';
-import { Footer } from './components/footer';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Profile } from 'pages/profile';
+import store, { persistor } from 'store';
+import Main from 'pages/main';
+import { Footer } from 'components/footer';
+import { theme } from 'const/theme';
+import { Header } from 'components/header';
+import { CookiesProvider } from 'react-cookie';
 
 const App = () => (
-  <Provider store={store}>
-    <ConfigProvider theme={theme}>
-      <BrowserRouter>
-        <Wrapper>
-          <Header />
-          <Routes>
-            <Route path='/forum/*' element={<Main />} />
-            <Route path='/forum/profile/*' element={<Profile />} />
-          </Routes>
-          <Footer />
-        </Wrapper>
-      </BrowserRouter>
-    </ConfigProvider>
-  </Provider>
+  <CookiesProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConfigProvider theme={theme}>
+          <BrowserRouter>
+            <Wrapper>
+              <Header />
+              <Routes>
+                <Route path='/forum/*' element={<Main />} />
+                <Route path='/forum/profile/*' element={<Profile />} />
+              </Routes>
+              <Footer />
+            </Wrapper>
+          </BrowserRouter>
+        </ConfigProvider>
+      </PersistGate>
+    </Provider>
+  </CookiesProvider>
 );
 
 export default App;

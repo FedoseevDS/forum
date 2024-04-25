@@ -11,12 +11,12 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
 
       state.value.push({
         id: items ? items + 1 : 1,
-        value: payload,
+        value: payload.value,
+        title: payload.title,
       });
     },
-    deleteForum: (state, { payload, getState }) => {
-      console.log('state', current(state.value));
-      console.log('payload', payload);
+    deleteForum: (state, { payload }) => {
+      state.value = state.value.filter(({ id }) => id !== payload.id);
     },
   },
 });

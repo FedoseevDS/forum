@@ -1,9 +1,32 @@
 import { Link } from 'react-router-dom';
-import { Logo, Template } from './styles';
+import { Logo, Profile, Template } from './styles';
+import { Modal } from 'components/modal';
+import { logo } from './consts';
+import { useEffect, useMemo, useState } from 'react';
+import { Cookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAuth, setAuth } from 'store/auth';
+
+const cookies = new Cookies();
 
 export const Header = () => {
-  const logo =
-    'https://tochka-rosta-sokolniki.ru/800/600/https/www.clipartmax.com/png/full/5-54057_people-cliparts-transparent-happy-new-year-message-for-friends.png';
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
+
+  console.log('auth', auth);
+
+  const [isAuthorization, setIsAuthorization] = useState(false);
+
+  const token = cookies.get('profile');
+
+  useEffect(() => {
+    if (!token) {
+      dispatch(removeAuth({ login: null, password: null, isAuth: false, id: null }));
+    }
+
+    // console.log('isAuth', isAuth);
+  }, [dispatch, token]);
 
   return (
     <Template>
@@ -11,7 +34,16 @@ export const Header = () => {
         <img src={logo} alt='логотип' />
       </Logo>
       <h1>Форум: Веселых людей</h1>
-      <Link to='forum/profile'>личный кабинет</Link>
+      <Profile>
+        {!auth.profile.isAuth ? (
+          <div>
+            <button onClick={() => setIsAuthorization((e) => !e)}>Вход и регистрация</button>
+            <Modal isAuthorization onOpen={isAuthorization} onCancel={setIsAuthorization} />
+          </div>
+        ) : (
+          <div>привет</div>
+        )}
+      </Profile>
     </Template>
   );
 };

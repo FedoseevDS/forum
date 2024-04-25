@@ -1,16 +1,25 @@
 import { useState } from 'react';
-import { Button, Template } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { createForum } from '../../store/forum';
+import { Button, CreateForm, Template, WrapperAuthorization } from './styles';
+import { useDispatch } from 'react-redux';
+import { createForum } from 'store/forum';
+// import { setUser } from 'store/users';
+// import { useCookies } from 'react-cookie';
+import { Registration } from 'components/registration';
+import { Authorization } from 'components/auth';
 
-export const Modal = ({ onCancel, title, placeholder }) => {
-  // const data = useSelector((state) => state.forum.value);
+export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization }) => {
+  if (!onOpen) {
+    return;
+  }
+
+  // const [cookies, setCookie, removeCookie] = useCookies();
+
   const dispatch = useDispatch();
 
   const [value, setValue] = useState('');
+  const [isRegistration, setIsRegistration] = useState(false);
 
-  // console.log('value', value);
-  // console.log('data', data);
+  // const id = useId();
 
   const onSave = () => {
     dispatch(createForum(value));
@@ -20,16 +29,27 @@ export const Modal = ({ onCancel, title, placeholder }) => {
   return (
     <Template>
       <div>
-        <span>Создать {title}</span>
-        <input
-          type='text'
-          placeholder={`Введите название ${placeholder}`}
-          onChange={({ target }) => setValue(target.value)}
-        />
-        <Button>
-          <button onClick={() => onSave()}>Сохранить</button>
-          <button onClick={() => onCancel(false)}>Отменить</button>
-        </Button>
+        {isAuthorization ? (
+          <WrapperAuthorization>
+            <span>Авторизация</span>
+            <Authorization onCancel={onCancel} />
+            <button onClick={() => setIsRegistration((e) => !e)}>Зарегистрироваться</button>
+            {isRegistration && <Registration onCancel={onCancel} />}
+          </WrapperAuthorization>
+        ) : (
+          <CreateForm>
+            <span>Создать {title}</span>
+            <input
+              type='text'
+              placeholder={`Введите название ${placeholder}`}
+              onChange={({ target }) => setValue({ value: target.value, title })}
+            />
+            <Button>
+              <button onClick={() => onSave()}>{'Сохранить'}</button>
+              <button onClick={() => onCancel(false)}>{'Отменить'}</button>
+            </Button>
+          </CreateForm>
+        )}
       </div>
     </Template>
   );

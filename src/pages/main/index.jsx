@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal } from '../../components/modal';
 import { BlankItem, Button, Table, Template } from './styles';
 import { useState } from 'react';
-import { CheckSquareOutlined, FolderOpenOutlined } from '@ant-design/icons';
-import { deleteForum } from '../../store/forum';
-import { Item } from '../../components/item';
+import { CheckSquareOutlined } from '@ant-design/icons';
+import { Item } from 'components/item';
+import { Modal } from 'components/modal';
+import { deleteForum } from 'store/forum';
 
-export const Main = () => {
+const Main = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.forum.value);
+
+  // console.log('data', data);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
@@ -19,7 +21,7 @@ export const Main = () => {
   // console.log('isCheckbox', isCheckbox);
 
   const onDelete = () => {
-    dispatch(deleteForum(itemIds));
+    dispatch(deleteForum({ id: itemIds[0] }));
     setIsCheckbox(false);
     setItemIds([]);
   };
@@ -38,11 +40,11 @@ export const Main = () => {
               <th>{<CheckSquareOutlined />}</th>
               <th>№</th>
               <th>картинка</th>
-              <th>тема</th>
+              <th>тема для обсуждения</th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, value }) => (
+            {data.map(({ id, value, title }) => (
               <Item
                 key={id}
                 id={id}
@@ -51,6 +53,7 @@ export const Main = () => {
                 setIsCheckbox={setIsCheckbox}
                 itemIds={itemIds}
                 setItemIds={setItemIds}
+                title={title}
               />
             ))}
           </tbody>
@@ -58,10 +61,21 @@ export const Main = () => {
       ) : (
         <BlankItem>Создайте тему или обсуждение</BlankItem>
       )}
-      {isCreateTheme && <Modal onCancel={setIsCreateTheme} title={'тему'} placeholder={'темы'} />}
-      {isCreateDiscuss && (
-        <Modal onCancel={setIsCreateDiscuss} title={'обсуждение'} placeholder={'обсуждения'} />
-      )}
+      <Modal
+        onOpen={isCreateTheme}
+        onCancel={setIsCreateTheme}
+        title={'тему'}
+        placeholder={'темы'}
+      />
+
+      <Modal
+        onOpen={isCreateDiscuss}
+        onCancel={setIsCreateDiscuss}
+        title={'обсуждение'}
+        placeholder={'обсуждения'}
+      />
     </Template>
   );
 };
+
+export default Main;

@@ -1,31 +1,21 @@
-import { FolderOpenOutlined } from '@ant-design/icons';
+import { CommentOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 // const ItemId = styled.tr`
 //   background: red;
 // `;
 
-export const Item = ({ id, value, isCheckbox, setIsCheckbox, itemIds, setItemIds }) => {
-  console.log('itemIds', itemIds);
+export const Item = ({ id, value, isCheckbox, setIsCheckbox, itemIds, setItemIds, title }) => {
+  // console.log('itemIds', itemIds);
   // console.log('isCheckbox', isCheckbox);
 
   const onItemHandle = (id) => {
-    // console.log('id', id);
-    // setItemIds(() => {
-    //   if (itemIds.includes(id)) {
-    //     return;
-    //   }
-    //   if (itemIds.some((item) => item === id)) {
-    //     setItemIds((prev) => console.log('prev', prev));
-    //     return;
-    //   }
-    //   setItemIds([id]);
-    // });
+    setItemIds([id]);
   };
 
   return (
-    // <tr key={id} style={{ background: itemIds.includes(id) && isCheckbox && 'red' }}>
-    <tr key={id}>
+    <tr key={id} style={{ background: itemIds.includes(id) && isCheckbox && '#ed7464' }}>
+      {/* <tr key={id}> */}
       <td>
         <input
           type='checkbox'
@@ -38,7 +28,7 @@ export const Item = ({ id, value, isCheckbox, setIsCheckbox, itemIds, setItemIds
         />
       </td>
       <td>{id}</td>
-      <td>{<FolderOpenOutlined />}</td>
+      <td>{title === 'тему' ? <FolderOpenOutlined /> : <CommentOutlined />}</td>
       <td>{value}</td>
     </tr>
   );
