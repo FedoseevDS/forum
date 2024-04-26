@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
-  profile: {
-    login: '',
-    password: '',
-    isAuth: false,
-    id: '',
-  },
+  email: null,
+  isAuth: false,
+  id: null,
+  name: null,
+  signature: null,
 };
 
 const authSlice = createSlice({
@@ -14,23 +13,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, { payload }) => {
-      state.profile.login = payload.login;
-      state.profile.password = payload.password;
-      state.profile.isAuth = payload.isAuth;
-      state.profile.id = payload.userId;
+      console.log('payload', payload);
 
-      delete state.id;
-      delete state.isAuth;
-      delete state.login;
-      delete state.password;
+      state.email = payload.email;
+      state.isAuth = payload.isAuth;
+      state.id = payload.id;
+      state.name = payload.name;
+      state.signature = payload.signature;
     },
-    removeAuth: (state, { payload }) => {
-      // state.login = payload.login;
-      // state.password = payload.password;
-      // state.isAuth = payload.isAuth;
-      // state.id = payload.id;
-
-      state.profile = { login: null, password: null, isAuth: false, id: null };
+    removeAuth: (state) => {
+      state.email = null;
+      state.id = null;
+      state.isAuth = false;
+      state.name = null;
+      state.signature = null;
     },
   },
 });

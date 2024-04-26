@@ -1,21 +1,23 @@
 import { CommentOutlined, FolderOpenOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom/dist';
 import styled from 'styled-components';
 
-// const ItemId = styled.tr`
-//   background: red;
-// `;
-
-export const Item = ({ id, value, isCheckbox, setIsCheckbox, itemIds, setItemIds, title }) => {
-  // console.log('itemIds', itemIds);
-  // console.log('isCheckbox', isCheckbox);
-
+export const Item = ({
+  id,
+  value,
+  isCheckbox,
+  setIsCheckbox,
+  itemIds,
+  setItemIds,
+  title,
+  number,
+}) => {
   const onItemHandle = (id) => {
     setItemIds([id]);
   };
 
   return (
     <tr key={id} style={{ background: itemIds.includes(id) && isCheckbox && '#ed7464' }}>
-      {/* <tr key={id}> */}
       <td>
         <input
           type='checkbox'
@@ -27,9 +29,11 @@ export const Item = ({ id, value, isCheckbox, setIsCheckbox, itemIds, setItemIds
           }}
         />
       </td>
-      <td>{id}</td>
+      <td>{number}</td>
       <td>{title === 'тему' ? <FolderOpenOutlined /> : <CommentOutlined />}</td>
-      <td>{value}</td>
+      <td>
+        <Link to={id}>{value}</Link>
+      </td>
     </tr>
   );
 };

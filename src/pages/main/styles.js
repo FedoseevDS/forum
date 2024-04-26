@@ -7,6 +7,10 @@ export const Template = styled(Layout.Content)`
   gap: 10px;
   height: 500px;
   margin-top: 10px;
+
+  & > span {
+    font-weight: 700;
+  }
 `;
 
 export const Button = styled.div`

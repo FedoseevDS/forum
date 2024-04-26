@@ -2,27 +2,30 @@ import { useState } from 'react';
 import { Button, CreateForm, Template, WrapperAuthorization } from './styles';
 import { useDispatch } from 'react-redux';
 import { createForum } from 'store/forum';
-// import { setUser } from 'store/users';
-// import { useCookies } from 'react-cookie';
 import { Registration } from 'components/registration';
 import { Authorization } from 'components/auth';
+import { nanoid } from 'nanoid';
+import { useLocation } from 'react-router-dom/dist';
 
 export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization }) => {
   if (!onOpen) {
     return;
   }
 
-  // const [cookies, setCookie, removeCookie] = useCookies();
-
   const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+
+  console.log('pathname', pathname.split('/').filter((item) => item).length);
+
+  const parentId = pathname.split('/').filter((item) => item).length;
 
   const [value, setValue] = useState('');
   const [isRegistration, setIsRegistration] = useState(false);
 
-  // const id = useId();
-
   const onSave = () => {
-    dispatch(createForum(value));
+    const id = nanoid();
+    dispatch(createForum({ ...value, id, parentId }));
     onCancel(false);
   };
 
@@ -45,8 +48,8 @@ export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization })
               onChange={({ target }) => setValue({ value: target.value, title })}
             />
             <Button>
-              <button onClick={() => onSave()}>{'Сохранить'}</button>
-              <button onClick={() => onCancel(false)}>{'Отменить'}</button>
+              <button onClick={() => onSave()}>Сохранить</button>
+              <button onClick={() => onCancel(false)}>Отменить</button>
             </Button>
           </CreateForm>
         )}

@@ -7,10 +7,12 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
   },
   reducers: {
     createForum: (state, { payload }) => {
-      const items = state.value.length;
+      // const items = state.value.length;
+
+      console.log('payload', payload);
 
       state.value.push({
-        id: items ? items + 1 : 1,
+        id: payload.id,
         value: payload.value,
         title: payload.title,
       });

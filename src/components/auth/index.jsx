@@ -2,33 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form } from './styles';
 import { setAuth } from 'store/auth';
 import { useCookies } from 'react-cookie';
+import bcrypt from 'bcryptjs';
 
 export const Authorization = ({ onCancel }) => {
-  // const [login, setLogin]
   const dispatch = useDispatch();
   const users = useSelector(({ users }) => users.users);
 
-  console.log('users', users);
-
-  const [cookies, setCookies, removeCookie] = useCookies();
-
-  // const clickHandler = useCallback(
-  //   () =>
-  //     authorizeAction({ password, username }).then((res) => {
-  //       if (res.data) {
-  //         const { r7Token, token } = res.data.body;
-
-  //         dispatch(setNoAuth(false));
-  //         setCookies('token', token, { maxAge: 60 * 60 * 24 });
-  //         setCookies('r7Token', r7Token, { maxAge: 60 * 60 * 24 });
-  //         navigate(prevPage || '/');
-  //         removeCookie('prev-page');
-  //       } else {
-  //         console.warn('Ошибка:', res.error);
-  //       }
-  //     }),
-  //   [dispatch, navigate, authorizeAction, setCookies, removeCookie, username, password, prevPage],
-  // );
+  const [, setCookies] = useCookies();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,22 +18,20 @@ export const Authorization = ({ onCancel }) => {
       data[key] = value;
     }
 
-    const isAuth = users.some(
-      ({ email, newPassword }) => email === data.login && newPassword === data.password,
-    );
-    const userId = users.find(({ email }) => email === data.login).id;
+    const user = users.find(({ email }) => email === data.email);
 
-    const { login, password } = data;
+    const isAuth = !!user && bcrypt.compareSync(data.password, user.password);
 
-    setCookies('profile', { login, password }, { maxAge: 10 });
+    setCookies('profile', { login: data.login }, { maxAge: 60 * 60 });
 
-    dispatch(setAuth({ ...data, isAuth, userId }));
+    dispatch(setAuth({ ...user, isAuth }));
+    onCancel(false);
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <label>Введите Логин</label>
-      <input autoComplete='on' type='email' name='login' placeholder='Введите логин' />
+      <input autoComplete='on' type='email' name='email' placeholder='Введите логин' />
       <label>Введите Пароль</label>
       <input autoComplete='on' type='password' name='password' placeholder='Введите пароль' />
       <div>

@@ -10,6 +10,7 @@ import { Footer } from 'components/footer';
 import { theme } from 'const/theme';
 import { Header } from 'components/header';
 import { CookiesProvider } from 'react-cookie';
+import { Discuss } from 'components/discuss';
 
 const App = () => (
   <CookiesProvider>
@@ -21,6 +22,7 @@ const App = () => (
               <Header />
               <Routes>
                 <Route path='/forum/*' element={<Main />} />
+                <Route path='/forum/:id' element={<Discuss />} />
                 <Route path='/forum/profile/*' element={<Profile />} />
               </Routes>
               <Footer />

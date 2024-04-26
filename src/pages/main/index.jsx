@@ -9,16 +9,14 @@ import { deleteForum } from 'store/forum';
 const Main = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.forum.value);
+  const auth = useSelector((state) => state.auth);
 
-  // console.log('data', data);
+  console.log('data', data);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [itemIds, setItemIds] = useState([]);
-
-  // console.log('itemIds', itemIds);
-  // console.log('isCheckbox', isCheckbox);
 
   const onDelete = () => {
     dispatch(deleteForum({ id: itemIds[0] }));
@@ -28,11 +26,15 @@ const Main = () => {
 
   return (
     <Template>
-      <Button>
-        <button onClick={() => setIsCreateTheme((e) => !e)}>Создать тему</button>
-        <button onClick={() => setIsCreateDiscuss((e) => !e)}>Создать обсуждение</button>
-        <button onClick={() => onDelete()}>Удалить</button>
-      </Button>
+      {auth.isAuth ? (
+        <Button>
+          <button onClick={() => setIsCreateTheme((e) => !e)}>Создать тему</button>
+          <button onClick={() => setIsCreateDiscuss((e) => !e)}>Создать обсуждение</button>
+          <button onClick={() => onDelete()}>Удалить</button>
+        </Button>
+      ) : (
+        <span>Для добавления темы или обсуждения необходимо авторизоваться.</span>
+      )}
       {data.length ? (
         <Table>
           <thead>
@@ -44,8 +46,9 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, value, title }) => (
+            {data.map(({ id, value, title }, index) => (
               <Item
+                number={index + 1}
                 key={id}
                 id={id}
                 value={value}

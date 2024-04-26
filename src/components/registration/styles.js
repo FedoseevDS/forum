@@ -15,6 +15,13 @@ export const Form = styled.form`
     border-radius: 10px;
     padding: 5px 10px;
   }
+
+  & > span {
+    color: red;
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+  }
 `;
 
 export const Button = styled.div`

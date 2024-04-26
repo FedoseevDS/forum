@@ -1,32 +1,40 @@
-import { Link } from 'react-router-dom';
-import { Logo, Profile, Template } from './styles';
 import { Modal } from 'components/modal';
-import { logo } from './consts';
-import { useEffect, useMemo, useState } from 'react';
-import { Cookies } from 'react-cookie';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAuth, setAuth } from 'store/auth';
-
-const cookies = new Cookies();
+import { removeAuth } from 'store/auth';
+import { logo } from './consts';
+import { Logo, Profile, Template, User } from './styles';
+import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom/dist';
 
 export const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const auth = useSelector((state) => state.auth);
 
-  console.log('auth', auth);
-
   const [isAuthorization, setIsAuthorization] = useState(false);
 
-  const token = cookies.get('profile');
+  const [{ profile: session }, , removeCookie] = useCookies(['profile']);
+
+  const onExit = () => {
+    dispatch(removeAuth());
+    removeCookie('profile');
+    setIsAuthorization(false);
+
+    if (pathname.includes('/forum/profile')) {
+      navigate(-1);
+    }
+  };
 
   useEffect(() => {
-    if (!token) {
-      dispatch(removeAuth({ login: null, password: null, isAuth: false, id: null }));
+    if (!session) {
+      dispatch(removeAuth());
+      setIsAuthorization(false);
     }
-
-    // console.log('isAuth', isAuth);
-  }, [dispatch, token]);
+  }, [dispatch, session]);
 
   return (
     <Template>
@@ -35,13 +43,21 @@ export const Header = () => {
       </Logo>
       <h1>Форум: Веселых людей</h1>
       <Profile>
-        {!auth.profile.isAuth ? (
+        {!auth.isAuth ? (
           <div>
             <button onClick={() => setIsAuthorization((e) => !e)}>Вход и регистрация</button>
             <Modal isAuthorization onOpen={isAuthorization} onCancel={setIsAuthorization} />
           </div>
         ) : (
-          <div>привет</div>
+          <User>
+            <div>
+              <span>{auth.name}</span>
+              <button onClick={() => onExit()}>Выйти</button>
+            </div>
+            <div>
+              <Link to='forum/profile'>Личный кабинет</Link>
+            </div>
+          </User>
         )}
       </Profile>
     </Template>
