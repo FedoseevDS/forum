@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, CreateForm, Template, WrapperAuthorization } from './styles';
 import { useDispatch } from 'react-redux';
 import { createForum } from 'store/forum';
@@ -7,27 +7,23 @@ import { Authorization } from 'components/auth';
 import { nanoid } from 'nanoid';
 import { useLocation } from 'react-router-dom/dist';
 
-export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization }) => {
+export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization, topicId }) => {
   if (!onOpen) {
     return;
   }
 
   const dispatch = useDispatch();
 
-  const { pathname } = useLocation();
-
-  console.log('pathname', pathname.split('/').filter((item) => item).length);
-
-  const parentId = pathname.split('/').filter((item) => item).length;
-
   const [value, setValue] = useState('');
   const [isRegistration, setIsRegistration] = useState(false);
 
-  const onSave = () => {
+  console.log('value', value);
+
+  const onSave = useCallback(() => {
     const id = nanoid();
-    dispatch(createForum({ ...value, id, parentId }));
+    dispatch(createForum({ ...value, id, topicId }));
     onCancel(false);
-  };
+  }, [dispatch, value]);
 
   return (
     <Template>
@@ -44,6 +40,7 @@ export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization })
             <span>Создать {title}</span>
             <input
               type='text'
+              required
               placeholder={`Введите название ${placeholder}`}
               onChange={({ target }) => setValue({ value: target.value, title })}
             />

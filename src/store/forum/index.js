@@ -9,12 +9,16 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
     createForum: (state, { payload }) => {
       // const items = state.value.length;
 
+      // TODO: убрать value
+
       console.log('payload', payload);
 
       state.value.push({
         id: payload.id,
         value: payload.value,
         title: payload.title,
+        // depth: payload.depth,
+        parentId: payload.topicId || null,
       });
     },
     deleteForum: (state, { payload }) => {

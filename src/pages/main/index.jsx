@@ -5,13 +5,16 @@ import { CheckSquareOutlined } from '@ant-design/icons';
 import { Item } from 'components/item';
 import { Modal } from 'components/modal';
 import { deleteForum } from 'store/forum';
+import { useParams } from 'react-router-dom';
 
 const Main = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.forum.value);
   const auth = useSelector((state) => state.auth);
+  const { id: topicId } = useParams();
 
   console.log('data', data);
+  console.log('topicId', topicId);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
@@ -23,6 +26,8 @@ const Main = () => {
     setIsCheckbox(false);
     setItemIds([]);
   };
+
+  // const filterData = data.filter((item) => item.id === topicId || !topicId);
 
   return (
     <Template>
@@ -46,19 +51,35 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, value, title }, index) => (
-              <Item
-                number={index + 1}
-                key={id}
-                id={id}
-                value={value}
-                isCheckbox={isCheckbox}
-                setIsCheckbox={setIsCheckbox}
-                itemIds={itemIds}
-                setItemIds={setItemIds}
-                title={title}
-              />
-            ))}
+            {data.map(({ value, title, parentId, id }, index) => {
+              // if (parentId === topicId) {
+              return (
+                <Item
+                  number={index + 1}
+                  key={id}
+                  id={id}
+                  value={value}
+                  isCheckbox={isCheckbox}
+                  setIsCheckbox={setIsCheckbox}
+                  itemIds={itemIds}
+                  setItemIds={setItemIds}
+                  title={title}
+                />
+              );
+              // } else if (!parentId) {
+              //   <Item
+              //     number={index + 1}
+              //     key={id}
+              //     id={id}
+              //     value={value}
+              //     isCheckbox={isCheckbox}
+              //     setIsCheckbox={setIsCheckbox}
+              //     itemIds={itemIds}
+              //     setItemIds={setItemIds}
+              //     title={title}
+              //   />;
+              // }
+            })}
           </tbody>
         </Table>
       ) : (
@@ -69,6 +90,7 @@ const Main = () => {
         onCancel={setIsCreateTheme}
         title={'тему'}
         placeholder={'темы'}
+        topicId={topicId}
       />
 
       <Modal

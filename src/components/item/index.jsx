@@ -1,5 +1,5 @@
 import { CommentOutlined, FolderOpenOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom/dist';
+import { Link, Route } from 'react-router-dom/dist';
 import styled from 'styled-components';
 
 export const Item = ({
@@ -15,6 +15,8 @@ export const Item = ({
   const onItemHandle = (id) => {
     setItemIds([id]);
   };
+
+  console.log('id', id);
 
   return (
     <tr key={id} style={{ background: itemIds.includes(id) && isCheckbox && '#ed7464' }}>
@@ -33,6 +35,7 @@ export const Item = ({
       <td>{title === 'тему' ? <FolderOpenOutlined /> : <CommentOutlined />}</td>
       <td>
         <Link to={id}>{value}</Link>
+        {/* <Route path=  */}
       </td>
     </tr>
   );
