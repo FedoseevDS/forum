@@ -11,21 +11,34 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
 
       // TODO: убрать value
 
-      console.log('payload', payload);
-
       state.value.push({
         id: payload.id,
         value: payload.value,
         title: payload.title,
-        // depth: payload.depth,
-        parentId: payload.topicId || null,
+        depth: payload.depth || null,
+        parentId: payload.parentId || null,
       });
     },
     deleteForum: (state, { payload }) => {
       state.value = state.value.filter(({ id }) => id !== payload.id);
+      // state.value = [];
+    },
+    createDiscuss: (state, { payload }) => {
+      state.value.push({
+        // id: payload.id,
+        // value: payload.value,
+        // title: payload.title,
+        ...payload,
+        depth: payload.depth || null,
+        parentId: payload.parentId || null,
+        children: [],
+      });
+    },
+    createComment: (state, { payload }) => {
+      state.value.children = state.value.children.push({ ...payload });
     },
   },
 });
 
 export default forumReducer;
-export const { createForum, deleteForum } = forumActions;
+export const { createForum, deleteForum, createDiscuss, createComment } = forumActions;

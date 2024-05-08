@@ -1,28 +1,23 @@
+import { Discuss } from 'components/discuss';
 import Main from 'pages/main';
-import { NotFound } from 'pages/notFound';
 import { Profile } from 'pages/profile';
+import { useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-export const DinamicRoute = () => {
-  // const { pathname } = useLocation();
+export const Root = () => {
+  const { pathname } = useLocation();
 
-  // console.log('pathname', pathname);
-
-  // const topicId = pathname.split('/').slice(2).join();
-  // // .filter((i) => i);
-  // const depth = pathname.split('/').slice(2).length;
-  // // const repeatId = ':id/'.repeat(topicId.length);
-
-  // console.log('topicId route', topicId);
-  // console.log('repeatId', repeatId);
+  const depth = useMemo(() => pathname.split('/').slice(2).length, [pathname]);
+  const parentId = useMemo(() => pathname.split('/').slice(-1).join(), [pathname]);
+  const pathDiscuss = useMemo(() => pathname.split('/').slice(2, -2).join('/'));
 
   return (
     <Routes>
       <Route path='/forum/' element={<Main />} />
-      <Route path={`/forum/:id/*`} element={<Main />} />
-      {/* <Route path='/forum/:id' element={<Discuss />} /> */}
-      <Route path='/forum/profile/' element={<Profile />} />
-      {/* <Route path='*' element={<NotFound />} /> */}
+      <Route path='forum/discuss/:id' element={<Discuss />} />
+      <Route path='forum/:id/*' element={<Main depth={depth} parentId={parentId} />} />
+      <Route path={`forum/${pathDiscuss}/discuss/:id`} element={<Discuss />} />
+      <Route path='forum/profile/' element={<Profile />} />
     </Routes>
   );
 };

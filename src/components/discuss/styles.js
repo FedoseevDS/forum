@@ -24,22 +24,40 @@ export const Block = styled.div`
   border-top: 1px solid;
   width: 95%;
 
-  & > div {
+  & > form {
     display: flex;
+    flex-direction: column;
     gap: 10px;
 
-    & > button {
-      border-radius: 10px;
-      padding: 5px 10px;
-      border: none;
-      background: #0b2854e7;
-      color: white;
-      cursor: pointer;
+    & > div {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
 
-      &:hover {
-        background: #ed7464;
+      button {
+        border-radius: 10px;
+        padding: 5px 10px;
         border: none;
+        background: #0b2854e7;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+          background: #ed7464;
+          border: none;
+        }
       }
     }
+  }
+`;
+
+export const TextArea = styled.div`
+  & > label {
+    font-weight: 700;
+  }
+
+  & > textarea {
+    width: 600px;
+    height: 60px;
   }
 `;

@@ -13,8 +13,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, { payload }) => {
-      console.log('payload', payload);
-
       state.email = payload.email;
       state.isAuth = payload.isAuth;
       state.id = payload.id;

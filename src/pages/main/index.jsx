@@ -1,25 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { BlankItem, Button, Table, Template } from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckSquareOutlined } from '@ant-design/icons';
 import { Item } from 'components/item';
 import { Modal } from 'components/modal';
 import { deleteForum } from 'store/forum';
-import { useParams } from 'react-router-dom';
 
-const Main = () => {
+const Main = ({ depth, parentId }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.forum.value);
   const auth = useSelector((state) => state.auth);
-  const { id: topicId } = useParams();
-
-  console.log('data', data);
-  console.log('topicId', topicId);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [itemIds, setItemIds] = useState([]);
+  const [filterData, setFilterData] = useState(data);
 
   const onDelete = () => {
     dispatch(deleteForum({ id: itemIds[0] }));
@@ -27,7 +23,14 @@ const Main = () => {
     setItemIds([]);
   };
 
-  // const filterData = data.filter((item) => item.id === topicId || !topicId);
+  useEffect(() => {
+    if (parentId) {
+      setFilterData(data?.filter((item) => item.depth === depth && item.parentId === parentId));
+      return;
+    }
+
+    setFilterData(data?.filter((item) => item.depth === null));
+  }, [data, parentId, depth]);
 
   return (
     <Template>
@@ -40,7 +43,7 @@ const Main = () => {
       ) : (
         <span>Для добавления темы или обсуждения необходимо авторизоваться.</span>
       )}
-      {data.length ? (
+      {data?.length ? (
         <Table>
           <thead>
             <tr>
@@ -51,35 +54,20 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ value, title, parentId, id }, index) => {
-              // if (parentId === topicId) {
-              return (
-                <Item
-                  number={index + 1}
-                  key={id}
-                  id={id}
-                  value={value}
-                  isCheckbox={isCheckbox}
-                  setIsCheckbox={setIsCheckbox}
-                  itemIds={itemIds}
-                  setItemIds={setItemIds}
-                  title={title}
-                />
-              );
-              // } else if (!parentId) {
-              //   <Item
-              //     number={index + 1}
-              //     key={id}
-              //     id={id}
-              //     value={value}
-              //     isCheckbox={isCheckbox}
-              //     setIsCheckbox={setIsCheckbox}
-              //     itemIds={itemIds}
-              //     setItemIds={setItemIds}
-              //     title={title}
-              //   />;
-              // }
-            })}
+            {filterData.map((item, index) => (
+              <Item
+                number={index + 1}
+                key={item.id}
+                id={item.id}
+                value={item.value}
+                isCheckbox={isCheckbox}
+                setIsCheckbox={setIsCheckbox}
+                itemIds={itemIds}
+                setItemIds={setItemIds}
+                title={item.title}
+                parentId={item.parentId}
+              />
+            ))}
           </tbody>
         </Table>
       ) : (
@@ -90,14 +78,17 @@ const Main = () => {
         onCancel={setIsCreateTheme}
         title={'тему'}
         placeholder={'темы'}
-        topicId={topicId}
+        parentId={parentId}
+        depth={depth}
       />
-
       <Modal
         onOpen={isCreateDiscuss}
         onCancel={setIsCreateDiscuss}
         title={'обсуждение'}
         placeholder={'обсуждения'}
+        isDiscuss
+        parentId={parentId}
+        depth={depth}
       />
     </Template>
   );

@@ -5,8 +5,6 @@ import { nanoid } from 'nanoid';
 import bcrypt from 'bcryptjs';
 import { useState } from 'react';
 
-const id = nanoid();
-
 export const Registration = ({ onCancel }) => {
   const dispatch = useDispatch();
 
@@ -14,15 +12,13 @@ export const Registration = ({ onCancel }) => {
 
   const [error, setError] = useState(false);
 
-  console.log('users', users);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {};
     for (let [key, value] of formData.entries()) {
       data[key] = value;
-      data.id = id;
+      data.id = nanoid();
     }
 
     if (users.some(({ email }) => email === data.email)) {

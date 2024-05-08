@@ -4,6 +4,8 @@ const initialState = {
   users: [],
 };
 
+// TODO: убрать дополнительный проп users: []
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,

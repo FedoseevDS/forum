@@ -18,6 +18,7 @@ export default defineConfig({
       const: resolve(__dirname, './src/const'),
       assets: resolve(__dirname, './src/assets'),
       hooks: resolve(__dirname, './src/hooks'),
+      context: resolve(__dirname, './src/context'),
     },
     extensions: ['.js', '.jsx'],
   },

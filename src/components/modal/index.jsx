@@ -1,13 +1,22 @@
 import { useCallback, useState } from 'react';
 import { Button, CreateForm, Template, WrapperAuthorization } from './styles';
 import { useDispatch } from 'react-redux';
-import { createForum } from 'store/forum';
+import { createDiscuss, createForum } from 'store/forum';
 import { Registration } from 'components/registration';
 import { Authorization } from 'components/auth';
 import { nanoid } from 'nanoid';
 import { useLocation } from 'react-router-dom/dist';
 
-export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization, topicId }) => {
+export const Modal = ({
+  onOpen,
+  onCancel,
+  title,
+  placeholder,
+  isAuthorization,
+  parentId,
+  depth,
+  isDiscuss,
+}) => {
   if (!onOpen) {
     return;
   }
@@ -17,11 +26,13 @@ export const Modal = ({ onOpen, onCancel, title, placeholder, isAuthorization, t
   const [value, setValue] = useState('');
   const [isRegistration, setIsRegistration] = useState(false);
 
-  console.log('value', value);
-
   const onSave = useCallback(() => {
-    const id = nanoid();
-    dispatch(createForum({ ...value, id, topicId }));
+    if (isDiscuss) {
+      dispatch(createDiscuss({ ...value, id: nanoid(), parentId, depth }));
+      onCancel(false);
+      return;
+    }
+    dispatch(createForum({ ...value, id: nanoid(), parentId, depth }));
     onCancel(false);
   }, [dispatch, value]);
 
