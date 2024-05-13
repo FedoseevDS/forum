@@ -31,6 +31,11 @@ export const Button = styled.div`
       border: none;
     }
   }
+
+  & > button:disabled {
+    background: gray;
+    cursor: no-drop;
+  }
 `;
 
 export const Table = styled.table`

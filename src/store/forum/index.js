@@ -23,10 +23,7 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
       });
     },
     createComment: (state, { payload }) => {
-      console.log('payload', payload);
       const item = state.find(({ id }) => id === payload.discussId);
-      console.log('item', current(item));
-      console.log('state', current(state));
       state = item.children.push({ ...payload });
     },
     deleteComment: (state, { payload }) => {

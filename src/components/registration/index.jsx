@@ -21,14 +21,18 @@ export const Registration = ({ onCancel }) => {
       data.userId = nanoid();
     }
 
-    console.log('data', data);
-
     if (users?.some(({ email }) => email === data.email)) {
       setError(true);
       return;
     }
 
-    dispatch(addUser({ ...data, password: bcrypt.hashSync(data.password, 5) }));
+    dispatch(
+      addUser({
+        ...data,
+        password: bcrypt.hashSync(data.password, 5),
+        img: bcrypt?.hashSync(data.email, 10),
+      }),
+    );
     onCancel(false);
   };
 

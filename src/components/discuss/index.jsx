@@ -21,13 +21,13 @@ export const Discuss = () => {
     (event) => {
       event.preventDefault();
       const formData = new FormData(event.target);
-      const comment = {};
+      const comments = {};
       for (let [key, value] of formData.entries()) {
-        comment[key] = value;
-        comment.commentId = nanoid();
+        comments[key] = value;
+        comments.commentId = nanoid();
       }
 
-      dispatch(createComment({ ...comment, ...user, discussId: item.id }));
+      dispatch(createComment({ ...comments, ...user, discussId: item.id }));
       setClearValue('');
     },
     [dispatch, user],
@@ -45,7 +45,7 @@ export const Discuss = () => {
   );
 
   const ShowComments = useCallback(() => {
-    if (!item.children?.length) {
+    if (!item?.children?.length) {
       return null;
     }
 
@@ -85,7 +85,7 @@ export const Discuss = () => {
     <Template>
       <div>
         <span>Тема обсуждения:</span>
-        <span>{item.value}</span>
+        <span>{item?.value}</span>
       </div>
       <Border />
       <ShowComments />

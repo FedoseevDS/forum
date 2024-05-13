@@ -11,11 +11,17 @@ const Main = ({ depth, parentId }) => {
   const data = useSelector((state) => state.forum);
   const auth = useSelector((state) => state.auth);
 
+  // console.log('data', data);
+
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [itemIds, setItemIds] = useState([]);
   const [filterData, setFilterData] = useState(data);
+  const [isChildren, setIsChildren] = useState(false);
+
+  // console.log('itemIds', itemIds);
+  // const isChildren = state.some(({ parentId }) => parentId === item.id);
 
   const onDelete = () => {
     dispatch(deleteForum({ id: itemIds[0] }));
@@ -26,11 +32,13 @@ const Main = ({ depth, parentId }) => {
   useEffect(() => {
     if (parentId) {
       setFilterData(data?.filter((item) => item.depth === depth && item.parentId === parentId));
+      setIsChildren(data.some((item) => item.parentId !== null && item.parentId === itemIds[0]));
       return;
     }
 
+    setIsChildren(data.some((item) => item.parentId !== null && item.parentId === itemIds[0]));
     setFilterData(data?.filter((item) => item.depth === null));
-  }, [data, parentId, depth]);
+  }, [data, itemIds, parentId, depth]);
 
   return (
     <Template>
@@ -38,7 +46,9 @@ const Main = ({ depth, parentId }) => {
         <Button>
           <button onClick={() => setIsCreateTheme((e) => !e)}>Создать тему</button>
           <button onClick={() => setIsCreateDiscuss((e) => !e)}>Создать обсуждение</button>
-          <button onClick={() => onDelete()}>Удалить</button>
+          <button disabled={isChildren} onClick={() => onDelete()}>
+            Удалить
+          </button>
         </Button>
       ) : (
         <span>Для добавления темы или обсуждения необходимо авторизоваться.</span>
