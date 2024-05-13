@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import users from './users';
 import forum from './forum';
+import users from './users';
 
 import {
   persistStore,

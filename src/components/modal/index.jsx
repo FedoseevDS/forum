@@ -28,11 +28,11 @@ export const Modal = ({
 
   const onSave = useCallback(() => {
     if (isDiscuss) {
-      dispatch(createDiscuss({ ...value, id: nanoid(), parentId, depth }));
+      dispatch(createDiscuss({ ...value, id: nanoid(), parentId, depth, isTheme: false }));
       onCancel(false);
       return;
     }
-    dispatch(createForum({ ...value, id: nanoid(), parentId, depth }));
+    dispatch(createForum({ ...value, id: nanoid(), parentId, depth, isTheme: true }));
     onCancel(false);
   }, [dispatch, value]);
 

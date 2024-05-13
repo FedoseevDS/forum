@@ -8,7 +8,7 @@ import { deleteForum } from 'store/forum';
 
 const Main = ({ depth, parentId }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.forum.value);
+  const data = useSelector((state) => state.forum);
   const auth = useSelector((state) => state.auth);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
@@ -58,14 +58,11 @@ const Main = ({ depth, parentId }) => {
               <Item
                 number={index + 1}
                 key={item.id}
-                id={item.id}
-                value={item.value}
+                item={item}
                 isCheckbox={isCheckbox}
                 setIsCheckbox={setIsCheckbox}
                 itemIds={itemIds}
                 setItemIds={setItemIds}
-                title={item.title}
-                parentId={item.parentId}
               />
             ))}
           </tbody>

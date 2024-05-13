@@ -1,17 +1,15 @@
 import styled from 'styled-components';
 
 export const Template = styled.div`
-  border: 1px solid;
   margin-top: 10px;
   height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: auto;
 
   & > div {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+    margin-top: 10px;
 
     & > span:nth-child(2) {
       font-weight: 700;
@@ -20,26 +18,57 @@ export const Template = styled.div`
   }
 `;
 
-export const Block = styled.div`
-  border-top: 1px solid;
-  width: 95%;
+export const Border = styled.div`
+  border: 1px solid;
+  width: 90%;
+`;
 
-  & > form {
+export const Comments = styled.div`
+  width: 60%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+
+  & > div {
+    border-radius: 10px;
+    width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    bakcground: red;
 
-    & > div {
+    & > div:nth-child(1) {
       display: flex;
-      justify-content: center;
-      gap: 10px;
+      padding: 10px;
+      gap: 20px;
 
-      button {
+      & > div {
+        align-self: center;
+      }
+    }
+
+    & > div:nth-child(2) {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px;
+      border-top: 1px solid;
+
+      & > div {
+        display: flex;
+        gap: 20px;
+
+        & > span:nth-child(2) {
+          font-weight: 700;
+        }
+      }
+
+      & > button {
         border-radius: 10px;
-        padding: 5px 10px;
         border: none;
-        background: #0b2854e7;
         color: white;
+        background: #0b2854e7;
+        padding: 0 10px;
         cursor: pointer;
 
         &:hover {
@@ -51,13 +80,64 @@ export const Block = styled.div`
   }
 `;
 
-export const TextArea = styled.div`
+export const Block = styled.div`
+  & > form {
+    display: flex;
+    gap: 10px;
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+
+      & > button {
+        border: none;
+        display: flex;
+        border-radius: 10px;
+        background: #0b2854e7;
+        cursor: pointer;
+        align-items: center;
+        padding: 0 5px 0 10px;
+
+        & > span {
+          transform: scale(1.4);
+
+          & > svg > path {
+            fill: white;
+          }
+        }
+
+        &:hover {
+          background: #ed7464;
+          border: none;
+        }
+      }
+    }
+  }
+
+  & > button {
+    border: none;
+    border-radius: 10px;
+    background: #0b2854e7;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+
+    &:hover {
+      background: #ed7464;
+      border: none;
+    }
+  }
+`;
+
+export const Input = styled.div`
   & > label {
     font-weight: 700;
   }
 
-  & > textarea {
-    width: 600px;
-    height: 60px;
+  & > input {
+    width: 400px;
+    border-radius: 10px;
+    padding: 5px 10px;
   }
 `;

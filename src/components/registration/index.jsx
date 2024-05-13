@@ -8,7 +8,7 @@ import { useState } from 'react';
 export const Registration = ({ onCancel }) => {
   const dispatch = useDispatch();
 
-  const users = useSelector(({ users }) => users.users);
+  const users = useSelector(({ users }) => users);
 
   const [error, setError] = useState(false);
 
@@ -18,15 +18,17 @@ export const Registration = ({ onCancel }) => {
     const data = {};
     for (let [key, value] of formData.entries()) {
       data[key] = value;
-      data.id = nanoid();
+      data.userId = nanoid();
     }
 
-    if (users.some(({ email }) => email === data.email)) {
+    console.log('data', data);
+
+    if (users?.some(({ email }) => email === data.email)) {
       setError(true);
       return;
     }
 
-    dispatch(addUser({ ...data, password: bcrypt.hashSync(password, 5) }));
+    dispatch(addUser({ ...data, password: bcrypt.hashSync(data.password, 5) }));
     onCancel(false);
   };
 

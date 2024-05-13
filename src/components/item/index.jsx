@@ -1,16 +1,9 @@
 import { CommentOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
-export const Item = ({
-  id,
-  value,
-  isCheckbox,
-  setIsCheckbox,
-  itemIds,
-  setItemIds,
-  title,
-  number,
-}) => {
+export const Item = ({ isCheckbox, setIsCheckbox, itemIds, setItemIds, number, item }) => {
+  const { value, isTheme, id } = item;
+
   const onItemHandle = (id) => {
     setItemIds([id]);
   };
@@ -26,19 +19,14 @@ export const Item = ({
           checked={isCheckbox && itemIds.includes(id)}
           onChange={({ target }) => {
             setIsCheckbox(target.checked);
-            // setItemIds((prev) => (prev ? [...prev, id] : [id]));
             onItemHandle(target.checked ? id : null);
           }}
         />
       </td>
       <td>{number}</td>
-      <td>{title === 'тему' ? <FolderOpenOutlined /> : <CommentOutlined />}</td>
+      <td>{isTheme ? <FolderOpenOutlined /> : <CommentOutlined />}</td>
       <td>
-        {title !== 'обсуждение' ? (
-          <Link to={path ? `${path}/${id}` : id}>{value}</Link>
-        ) : (
-          <Link to={`${path ? `${path}/discuss/${id}` : `discuss/${id}`}`}>{value}</Link>
-        )}
+        <Link to={path ? `${path}/${id}` : id}>{value}</Link>
       </td>
     </tr>
   );

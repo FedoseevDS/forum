@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 
 export const Authorization = ({ onCancel }) => {
   const dispatch = useDispatch();
-  const users = useSelector(({ users }) => users.users);
+  const users = useSelector((state) => state.users);
 
   const [, setCookies] = useCookies();
 
