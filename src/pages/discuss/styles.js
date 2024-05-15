@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Template = styled.div`
   margin-top: 10px;
-  height: 500px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +24,7 @@ export const Border = styled.div`
 `;
 
 export const Comments = styled.div`
-  width: 60%;
+  width: 45%;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -33,7 +33,7 @@ export const Comments = styled.div`
 
   & > div {
     border-radius: 10px;
-    width: 50%;
+    width: 65%;
     display: flex;
     flex-direction: column;
     bakcground: red;
@@ -41,17 +41,29 @@ export const Comments = styled.div`
     & > div:nth-child(1) {
       display: flex;
       padding: 10px;
-      gap: 20px;
+      gap: 10px;
 
       & > div {
-        align-self: center;
+        display: flex;
+
+        & > img {
+          border-radius: 10px;
+        }
+      }
+
+      & > span {
+        width: 100%;
+        padding: 5px 10px;
+        background: white;
+        border-radius: 10px;
+        word-break: break-all;
       }
     }
 
     & > div:nth-child(2) {
       display: flex;
       justify-content: space-between;
-      padding: 5px;
+      padding: 5px 10px;
       border-top: 1px solid;
 
       & > div {
@@ -61,6 +73,10 @@ export const Comments = styled.div`
         & > span:nth-child(2) {
           font-weight: 700;
         }
+
+        & > span:nth-child(4) {
+          font-weight: 700;
+        }
       }
 
       & > button {
@@ -68,7 +84,7 @@ export const Comments = styled.div`
         border: none;
         color: white;
         background: #0b2854e7;
-        padding: 0 10px;
+        padding: 5px 10px;
         cursor: pointer;
 
         &:hover {

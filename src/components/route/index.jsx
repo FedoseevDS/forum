@@ -1,4 +1,4 @@
-import { Discuss } from 'components/discuss';
+import { Discuss } from 'pages/discuss';
 import Main from 'pages/main';
 import { Profile } from 'pages/profile';
 import { useMemo } from 'react';

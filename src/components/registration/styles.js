@@ -7,10 +7,6 @@ export const Form = styled.form`
   color: black;
   overflow: hidden;
 
-  & > label {
-    line-height: 20px;
-  }
-
   & > input {
     border-radius: 10px;
     padding: 5px 10px;
@@ -35,7 +31,7 @@ export const Button = styled.div`
     color: white;
     background: #0b2854e7;
     border: none;
-    width: 80px;
+    min-width: 100px;
     padding: 5px;
 
     &:hover {

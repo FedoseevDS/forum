@@ -21,12 +21,11 @@ export const Photo = styled.div`
 
   & > img {
     height: 80%;
+    border-radius: 10px;
   }
 `;
 
 export const UserInfo = styled.div`
-  // border: 1px solid;
-
   display: flex;
   flex-direction: column;
 
@@ -43,12 +42,12 @@ export const Button = styled.div`
 
   & > button {
     border-radius: 10px;
-    padding: 5px 0;
+    padding: 5px 10px;
     border: none;
     background: #0b2854e7;
     color: white;
     cursor: pointer;
-    width: 80px;
+    // width: 80px;
 
     &:hover {
       background: #ed7464;

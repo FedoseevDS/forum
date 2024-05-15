@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import { useCallback, useState } from 'react';
 import { createComment, deleteComment } from 'store/forum';
 import { SendOutlined } from '@ant-design/icons';
+import sha256 from 'crypto-js/sha256';
 
 export const Discuss = () => {
   const dispatch = useDispatch();
@@ -49,9 +50,14 @@ export const Discuss = () => {
       return null;
     }
 
+    const icon = (email) => {
+      const hash = sha256(email);
+      return `https://www.gravatar.com/avatar/${hash}`;
+    };
+
     return (
       <Comments>
-        {item.children.map(({ name, signature, comment, commentId, discussId, userId }) => (
+        {item.children.map(({ name, signature, comment, commentId, discussId, userId, email }) => (
           <div
             key={commentId}
             style={{
@@ -61,13 +67,14 @@ export const Discuss = () => {
           >
             <div>
               <div>
-                <img src='' />
-                <span>{name}</span>
+                <img src={icon(email)} />
               </div>
               <span>{comment}</span>
             </div>
             <div>
               <div>
+                <span>Пользователь:</span>
+                <span>{name}</span>
                 <span>Подпись:</span>
                 <span>{signature}</span>
               </div>

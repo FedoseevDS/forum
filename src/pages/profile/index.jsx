@@ -3,18 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeAuth } from 'store/auth';
 import { useCookies } from 'react-cookie';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import sha256 from 'crypto-js/sha256';
+import { config } from './consts';
+import { Modal } from 'components/common/modal';
 
 export const Profile = () => {
   const dispatch = useDispatch();
 
-  const { email, name, signature, img } = useSelector((state) => state.auth);
-  const data = useSelector((state) => state);
+  const user = useSelector((state) => state.auth);
+  const [isEdit, setIsEdit] = useState(false);
   const [, , removeCookie] = useCookies(['profile']);
 
-  console.log('img', img);
-
   const navigate = useNavigate();
+
+  const hash = useMemo(() => sha256(user.email), [user]);
 
   const onExit = useCallback(() => {
     dispatch(removeAuth());
@@ -26,40 +29,44 @@ export const Profile = () => {
     navigate(-1);
   }, [navigate]);
 
-  const randomString = Math.random().toString(36).substring(7);
-
-  // const [randomString, setRandomString] = useState(Math.random().toString(36).substring(7));
-
-  // console.log('randomString', randomString);
-
-  // const handleRefreshImage = () => {
-  //   setRandomString(Math.random().toString(36).substring(7));
-  // };
+  const onSave = useCallback(() => {
+    setIsEdit(false);
+  });
 
   return (
     <Template>
       <div>
         <Photo>
-          <img src={`https://www.gravatar.com/avatar/${img}`} alt='Пользователь' />
+          <img src={`https://www.gravatar.com/avatar/${hash}`} alt='Пользователь' />
         </Photo>
         <UserInfo>
           <p>
             Имя:
-            <span>{name}</span>
+            <span>{user.name}</span>
           </p>
           <p>
             подпись:
-            <span>{signature}</span>
+            <span>{user.signature}</span>
           </p>
           <p>
             Электронная почта:
-            <span>{email}</span>
+            <span>{user.email}</span>
           </p>
           <Button>
+            <button onClick={() => setIsEdit((e) => !e)}>Редактировать</button>
             <button onClick={onExit}>Выйти</button>
             <button onClick={onBack}>Назад</button>
           </Button>
         </UserInfo>
+        <Modal
+          onOpen={isEdit}
+          onCancel={setIsEdit}
+          dataItem={user}
+          config={config}
+          onSave={onSave}
+          isEdit
+          title={'Данные пользователя'}
+        />
       </div>
     </Template>
   );

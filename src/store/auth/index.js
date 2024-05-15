@@ -6,7 +6,6 @@ const initialState = {
   userId: null,
   name: null,
   signature: null,
-  img: null,
 };
 
 const authSlice = createSlice({
@@ -19,7 +18,6 @@ const authSlice = createSlice({
       state.userId = payload.userId;
       state.name = payload.name;
       state.signature = payload.signature;
-      state.img = payload.img;
     },
     removeAuth: (state) => {
       state.email = null;
@@ -27,7 +25,6 @@ const authSlice = createSlice({
       state.isAuth = false;
       state.name = null;
       state.signature = null;
-      state.img = null;
     },
   },
 });

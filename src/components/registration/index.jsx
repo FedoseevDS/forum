@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form } from './styles';
 import { addUser } from 'store/users';
 import { nanoid } from 'nanoid';
 import bcrypt from 'bcryptjs';
 import { useState } from 'react';
+import { Form } from 'components/common/form';
 
 export const Registration = ({ onCancel }) => {
   const dispatch = useDispatch();
@@ -30,30 +30,50 @@ export const Registration = ({ onCancel }) => {
       addUser({
         ...data,
         password: bcrypt.hashSync(data.password, 5),
-        img: bcrypt?.hashSync(data.email, 10),
       }),
     );
     onCancel(false);
   };
 
+  const configFields = [
+    {
+      label: 'Имя пользователя',
+      index: 'name',
+      required: true,
+      placeholder: 'Введите имя пользователя',
+    },
+    {
+      label: 'Подпись',
+      index: 'signature',
+      required: true,
+      placeholder: 'Введите подпись пользователя',
+    },
+    {
+      label: 'Адрес электронной почты',
+      type: 'email',
+      index: 'email',
+      required: true,
+      placeholder: 'Введите адрес электронной почты',
+      checkEmail: error,
+    },
+    {
+      label: 'Пароль',
+      type: 'password',
+      index: 'password',
+      required: true,
+      placeholder: 'Введите пароль',
+    },
+  ];
+
+  const configButton = { first: 'Сохранить', second: 'Выйти' };
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <label>Имя пользователя</label>
-      <input type='text' name='name' required placeholder='Введите имя пользователя' />
-      <label>Подпись</label>
-      <input type='text' name='signature' required placeholder='Введите подпись пользователя' />
-      <label>Адрес электронной почты</label>
-      <input type='email' name='email' required placeholder='Введите адрес электронной почты' />
-      {error && <span>Такой адрес электронной почты уже существует</span>}
-      <label>Пароль</label>
-      <input type='password' minLength={4} name='password' required placeholder='Введите пароль' />
-      <Button>
-        <button type='reset' onClick={() => setError(false)}>
-          Очистить
-        </button>
-        <button type='submit'>Сохранить</button>
-        <button onClick={() => onCancel(false)}>Выйти</button>
-      </Button>
-    </Form>
+    <Form
+      config={configFields}
+      onCancel={onCancel}
+      onSubmit={handleSubmit}
+      nameButton={configButton}
+      resetButton
+    />
   );
 };

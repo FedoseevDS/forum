@@ -38,7 +38,7 @@ export const Button = styled.div`
   }
 `;
 
-export const Table = styled.table`
+export const WrapperTable = styled.table`
   & tr {
     & th {
       border: 1px solid;
