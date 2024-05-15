@@ -28,6 +28,9 @@ export const Item = ({ isCheckbox, setIsCheckbox, itemIds, setItemIds, number, i
       <td>
         <Link to={path ? `${path}/${id}` : id}>{value}</Link>
       </td>
+      <td>{item.user.name}</td>
+      <td>{item.user.signature}</td>
+      <td>{item.user.email}</td>
     </tr>
   );
 };

@@ -43,14 +43,12 @@ export const WrapperTable = styled.table`
     & th {
       border: 1px solid;
 
-      &:nth-child(1) {
-        width: 5%;
-      }
-      &:nth-child(2) {
-        width: 5%;
-      }
       &:nth-child(3) {
         width: 5%;
+      }
+
+      &:nth-child(4) {
+        width: 70%;
       }
     }
 

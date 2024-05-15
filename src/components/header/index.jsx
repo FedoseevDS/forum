@@ -17,8 +17,6 @@ export const Header = () => {
 
   const { auth, users } = useSelector((state) => state);
 
-  console.log('users', users);
-
   const [, setCookies] = useCookies();
 
   const [isOpenModal, setIsOpenModal] = useState(false);

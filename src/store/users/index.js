@@ -7,10 +7,17 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, { payload }) => {
-      state = state.push({ ...payload });
+      state.push({ ...payload });
+    },
+    updateUser: (state, { payload }) => {
+      return state.map((user) =>
+        user.userId === payload.userId
+          ? { ...user, name: payload.name, signature: payload.signature }
+          : user,
+      );
     },
   },
 });
 
-export const { addUser } = usersSlice.actions;
+export const { addUser, updateUser } = usersSlice.actions;
 export default usersSlice.reducer;

@@ -7,8 +7,6 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
     createForum: (state, { payload }) => {
       state = state.push({
         ...payload,
-        depth: payload.depth || null,
-        parentId: payload.parentId || null,
       });
     },
     deleteForum: (state, { payload }) => {
@@ -30,9 +28,20 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
       const item = state.find(({ id }) => id === payload.discussId);
       item.children = item.children.filter(({ commentId }) => commentId !== payload.commentId);
     },
+    updateForum: (state, { payload }) => {
+      const item = state.find(({ user }) => user.userId === payload.userId);
+      item.user.name = payload.name;
+      item.user.signature = payload.signature;
+    },
   },
 });
 
 export default forumReducer;
-export const { createForum, deleteForum, createDiscuss, createComment, deleteComment } =
-  forumActions;
+export const {
+  createForum,
+  deleteForum,
+  createDiscuss,
+  createComment,
+  deleteComment,
+  updateForum,
+} = forumActions;

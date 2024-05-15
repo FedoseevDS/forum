@@ -12,7 +12,7 @@ export const Root = () => {
   const depth = useMemo(() => pathname.split('/').slice(2).length, [pathname]);
   const parentId = useMemo(() => pathname.split('/').slice(-1).join(), [pathname]);
 
-  const item = data.find(({ id }) => id === parentId);
+  const item = useMemo(() => data.find(({ id }) => id === parentId), [parentId]);
 
   const togglePage = item?.isTheme ? <Main depth={depth} parentId={parentId} /> : <Discuss />;
 

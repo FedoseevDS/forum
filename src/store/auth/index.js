@@ -26,8 +26,12 @@ const authSlice = createSlice({
       state.name = null;
       state.signature = null;
     },
+    updateAuth: (state, { payload }) => {
+      state.name = payload.name;
+      state.signature = payload.signature;
+    },
   },
 });
 
-export const { setAuth, removeAuth } = authSlice.actions;
+export const { setAuth, removeAuth, updateAuth } = authSlice.actions;
 export default authSlice.reducer;

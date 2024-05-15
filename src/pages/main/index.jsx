@@ -3,7 +3,6 @@ import { BlankItem, Button, Template, WrapperTable } from './styles';
 import { useCallback, useEffect, useState } from 'react';
 import { CheckSquareOutlined } from '@ant-design/icons';
 import { Item } from 'components/item';
-// import { Modal } from 'components/common/modal/modal';
 import { createDiscuss, createForum, deleteForum } from 'store/forum';
 import { Modal } from 'components/common/modal';
 import { configDiscuss, configTheme } from './consts';
@@ -11,28 +10,55 @@ import { nanoid } from 'nanoid';
 
 const Main = ({ depth, parentId }) => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.forum);
-  const auth = useSelector((state) => state.auth);
+  const { forum, auth } = useSelector((state) => state);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [itemIds, setItemIds] = useState([]);
-  const [filterData, setFilterData] = useState(data);
+  const [filterData, setFilterData] = useState(forum);
   const [isChildren, setIsChildren] = useState(false);
 
   const onSaveTheme = useCallback(
     (submitValue) => {
-      dispatch(createForum({ ...submitValue, id: nanoid(), parentId, depth, isTheme: true }));
+      dispatch(
+        createForum({
+          ...submitValue,
+          id: nanoid(),
+          parentId,
+          depth,
+          isTheme: true,
+          user: {
+            userId: auth.userId,
+            name: auth.name,
+            signature: auth.signature,
+            email: auth.email,
+          },
+        }),
+      );
     },
-    [dispatch, parentId, depth],
+    [dispatch, parentId, depth, auth],
   );
 
   const onSaveDiscuss = useCallback(
     (submitValue) => {
-      dispatch(createDiscuss({ ...submitValue, id: nanoid(), parentId, depth, isTheme: false }));
+      dispatch(
+        createDiscuss({
+          ...submitValue,
+          id: nanoid(),
+          parentId,
+          depth,
+          isTheme: false,
+          user: {
+            userId: auth.userId,
+            name: auth.name,
+            signature: auth.signature,
+            email: auth.email,
+          },
+        }),
+      );
     },
-    [dispatch, parentId, depth],
+    [dispatch, parentId, depth, auth],
   );
 
   const onDelete = useCallback(() => {
@@ -43,14 +69,14 @@ const Main = ({ depth, parentId }) => {
 
   useEffect(() => {
     if (parentId) {
-      setFilterData(data?.filter((item) => item.depth === depth && item.parentId === parentId));
-      setIsChildren(data.some((item) => item.parentId !== null && item.parentId === itemIds[0]));
+      setIsChildren(forum.some((item) => item?.parentId && item?.parentId === itemIds[0]));
+      setFilterData(forum?.filter((item) => item.depth === depth && item.parentId === parentId));
       return;
     }
 
-    setIsChildren(data.some((item) => item.parentId !== null && item.parentId === itemIds[0]));
-    setFilterData(data?.filter((item) => item.depth === null));
-  }, [data, itemIds, parentId, depth]);
+    setIsChildren(forum.some((item) => !!item.parentId && item.parentId === itemIds[0]));
+    setFilterData(forum?.filter((item) => !item.depth));
+  }, [forum, itemIds, parentId, depth]);
 
   const TopBar = () => {
     if (!auth.isAuth) {
@@ -69,7 +95,7 @@ const Main = ({ depth, parentId }) => {
   };
 
   const Table = () => {
-    if (!data?.length) {
+    if (!forum.some((i) => i.depth === depth)) {
       return <BlankItem>Создайте тему или обсуждение</BlankItem>;
     }
 
@@ -81,6 +107,9 @@ const Main = ({ depth, parentId }) => {
             <th>№</th>
             <th>картинка</th>
             <th>тема для обсуждения</th>
+            <th>Пользователь</th>
+            <th>Подпись</th>
+            <th>email</th>
           </tr>
         </thead>
         <tbody>

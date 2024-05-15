@@ -1,12 +1,14 @@
 import { Button, Photo, Template, UserInfo } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { removeAuth } from 'store/auth';
+import { removeAuth, updateAuth } from 'store/auth';
 import { useCookies } from 'react-cookie';
 import { useCallback, useMemo, useState } from 'react';
 import sha256 from 'crypto-js/sha256';
 import { config } from './consts';
 import { Modal } from 'components/common/modal';
+import { updateUser } from 'store/users';
+import { updateForum } from 'store/forum';
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -29,7 +31,10 @@ export const Profile = () => {
     navigate(-1);
   }, [navigate]);
 
-  const onSave = useCallback(() => {
+  const onSave = useCallback((submitValue) => {
+    dispatch(updateUser({ ...submitValue, userId: user.userId }));
+    dispatch(updateAuth({ ...submitValue }));
+    dispatch(updateForum({ ...submitValue, userId: user.userId }));
     setIsEdit(false);
   });
 
