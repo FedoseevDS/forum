@@ -29,9 +29,25 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
       item.children = item.children.filter(({ commentId }) => commentId !== payload.commentId);
     },
     updateForum: (state, { payload }) => {
-      const item = state.find(({ user }) => user.userId === payload.userId);
-      item.user.name = payload.name;
-      item.user.signature = payload.signature;
+      const { name, signature, userId } = payload;
+
+      state = state.reduce((prev, item) => {
+        if (item.user.userId === userId) {
+          item.user.name = name;
+          item.user.signature = signature;
+        }
+
+        if (item?.children?.some((item) => item.userId === userId)) {
+          item.children.forEach((item) => {
+            if (item.userId === userId) {
+              item.name = name;
+              item.signature = signature;
+            }
+          });
+        }
+
+        return [...prev, item];
+      }, []);
     },
   },
 });

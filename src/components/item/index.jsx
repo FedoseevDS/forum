@@ -2,7 +2,9 @@ import { CommentOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 export const Item = ({ isCheckbox, setIsCheckbox, itemIds, setItemIds, number, item }) => {
-  const { value, isTheme, id } = item;
+  console.log('item', item);
+
+  const { value, isTheme, id, user } = item;
 
   const onItemHandle = (id) => {
     setItemIds([id]);
@@ -28,9 +30,9 @@ export const Item = ({ isCheckbox, setIsCheckbox, itemIds, setItemIds, number, i
       <td>
         <Link to={path ? `${path}/${id}` : id}>{value}</Link>
       </td>
-      <td>{item.user.name}</td>
-      <td>{item.user.signature}</td>
-      <td>{item.user.email}</td>
+      <td>{user.name}</td>
+      <td>{user.signature}</td>
+      <td>{user.email}</td>
     </tr>
   );
 };

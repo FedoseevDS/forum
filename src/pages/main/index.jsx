@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { BlankItem, Button, Template, WrapperTable } from './styles';
 import { useCallback, useEffect, useState } from 'react';
-import { CheckSquareOutlined } from '@ant-design/icons';
+import { CheckSquareOutlined, FileOutlined } from '@ant-design/icons';
 import { Item } from 'components/item';
 import { createDiscuss, createForum, deleteForum } from 'store/forum';
 import { Modal } from 'components/common/modal';
@@ -21,6 +21,7 @@ const Main = ({ depth, parentId }) => {
 
   const onSaveTheme = useCallback(
     (submitValue) => {
+      console.log('submitValue', submitValue);
       dispatch(
         createForum({
           ...submitValue,
@@ -105,11 +106,13 @@ const Main = ({ depth, parentId }) => {
           <tr>
             <th>{<CheckSquareOutlined />}</th>
             <th>№</th>
-            <th>картинка</th>
-            <th>тема для обсуждения</th>
+            <th>
+              <FileOutlined />
+            </th>
+            <th>Тема или обсуждение</th>
             <th>Пользователь</th>
             <th>Подпись</th>
-            <th>email</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>
