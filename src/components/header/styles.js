@@ -44,14 +44,79 @@ export const Logo = styled(Link)`
   }
 `;
 
+export const Title = styled.div`
+  display: flex;
+  gap: 20px;
+
+  & > span:nth-child(1) {
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  & > span:nth-child(2) {
+    font-size: 30px;
+    cursor: pointer;
+
+    & > svg:hover {
+      fill: #ed7464;
+    }
+  }
+`;
+
+export const User = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  line-height: 20px;
+  
+  & > div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    
+    & > span {
+      align-self: center;
+    }
+    
+    & > button {
+      border-radius: 10px;
+      border: none;
+      width: 50px;
+      
+      &:hover {
+        cursor: pointer;
+        background: #ed7464;
+        border: none;
+      }
+    }
+  }
+  
+  & > div:nth-child(2) {
+    display: flex;
+    justify-content: space-around;
+    
+    & > a {
+      text-decoration: none;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      background: #f0f0f0;
+      color: black;
+      
+      &:hover {
+        cursor: pointer;
+        background: #ed7464;
+        border: none;
+      }
+    }
+    `;
+
 export const Profile = styled.div`
   width: 150px;
   display: flex;
   justify-content: center;
 
   & > div {
-    // display: flex;
-    // gap: 10px;
     line-height: 20px;
 
     & > button {
@@ -68,50 +133,21 @@ export const Profile = styled.div`
   }
 `;
 
-export const User = styled.div`
-  width: 100%;
+export const ShowTest = styled.div`
+  margin: 10px 0;
+  color: black;
+  font-size: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  line-height: 20px;
 
-  & > div:nth-child(1) {
+  & > div {
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
 
-    & > span {
-      align-self: center;
-    }
-
-    & > button {
-      border-radius: 10px;
-      border: none;
-      width: 50px;
-
-      &:hover {
-        cursor: pointer;
-        background: #ed7464;
-        border: none;
-      }
+    & > span:nth-child(1) {
+      font-weight: 700;
+      width: 100px;
     }
   }
-
-  & > div:nth-child(2) {
-    display: flex;
-    justify-content: space-around;
-
-    & > a {
-      text-decoration: none;
-      border-radius: 10px;
-      width: 100%;
-      text-align: center;
-      background: #f0f0f0;
-      color: black;
-
-      &:hover {
-        cursor: pointer;
-        background: #ed7464;
-        border: none;
-      }
-    }
 `;

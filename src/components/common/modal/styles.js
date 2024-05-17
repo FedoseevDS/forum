@@ -24,6 +24,7 @@ export const Template = styled.div`
     & > span {
       color: black;
       font-weight: 700;
+      line-height: 14px;
     }
 
     & > button {

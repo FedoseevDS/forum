@@ -12,6 +12,8 @@ export const Modal = ({
   dataItem,
   addUser,
   nameButton = { first: 'Сохранить', second: 'Отменить' },
+  children,
+  isForm = true,
 }) => {
   if (!onOpen) {
     return;
@@ -35,13 +37,18 @@ export const Modal = ({
     <Template>
       <div>
         <span>{title}</span>
-        <Form
-          onSubmit={handleSubmit}
-          config={config}
-          nameButton={nameButton}
-          dataItem={dataItem}
-          onCancel={onCancel}
-        />
+        {children}
+        {isForm ? (
+          <Form
+            onSubmit={handleSubmit}
+            config={config}
+            nameButton={nameButton}
+            dataItem={dataItem}
+            onCancel={onCancel}
+          />
+        ) : (
+          <button onClick={() => onCancel(false)}>Закрыть</button>
+        )}
         {addUser && (
           <button onClick={() => setisRegistration((e) => !e)}>Зарегистрироваться</button>
         )}
