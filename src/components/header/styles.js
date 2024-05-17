@@ -137,17 +137,18 @@ export const ShowTest = styled.div`
   margin: 10px 0;
   color: black;
   font-size: 14px;
+  line-height: initial;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  & > div {
+  & div {
     display: flex;
     gap: 10px;
 
     & > span:nth-child(1) {
       font-weight: 700;
-      width: 100px;
+      width: 85px;
     }
   }
 `;
