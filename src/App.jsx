@@ -9,28 +9,23 @@ import { theme } from 'const/theme';
 import { Header } from 'components/header';
 import { CookiesProvider } from 'react-cookie';
 import { Root } from 'components/route';
-import { useState } from 'react';
 
-const App = () => {
-  const items = useState();
-
-  return (
-    <CookiesProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <ConfigProvider theme={theme}>
-            <BrowserRouter>
-              <Wrapper>
-                <Header />
-                <Root />
-                <Footer />
-              </Wrapper>
-            </BrowserRouter>
-          </ConfigProvider>
-        </PersistGate>
-      </Provider>
-    </CookiesProvider>
-  );
-};
+const App = () => (
+  <CookiesProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConfigProvider theme={theme}>
+          <BrowserRouter>
+            <Wrapper>
+              <Header />
+              <Root />
+              <Footer />
+            </Wrapper>
+          </BrowserRouter>
+        </ConfigProvider>
+      </PersistGate>
+    </Provider>
+  </CookiesProvider>
+);
 
 export default App;
