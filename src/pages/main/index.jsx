@@ -21,7 +21,6 @@ const Main = ({ depth, parentId }) => {
 
   const onSaveTheme = useCallback(
     (submitValue) => {
-      console.log('submitValue', submitValue);
       dispatch(
         createForum({
           ...submitValue,
@@ -139,16 +138,17 @@ const Main = ({ depth, parentId }) => {
       <Modal
         onOpen={isCreateTheme}
         onCancel={setIsCreateTheme}
-        title='Создать "Тема"'
+        title='Тема'
         config={configTheme}
         onSave={onSaveTheme}
       />
       <Modal
         onOpen={isCreateDiscuss}
         onCancel={setIsCreateDiscuss}
-        title='Создать "Обсуждения"'
+        title='Обсуждения'
         config={configDiscuss}
         onSave={onSaveDiscuss}
+        markdown
       />
     </Template>
   );

@@ -15,14 +15,12 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
     createDiscuss: (state, { payload }) => {
       state.push({
         ...payload,
-        depth: payload.depth || null,
-        parentId: payload.parentId || null,
         children: [],
       });
     },
     createComment: (state, { payload }) => {
       const item = state.find(({ id }) => id === payload.discussId);
-      state = item.children.push({ ...payload });
+      state = item.children?.push({ ...payload });
     },
     deleteComment: (state, { payload }) => {
       const item = state.find(({ id }) => id === payload.discussId);
@@ -49,6 +47,12 @@ const { actions: forumActions, reducer: forumReducer } = createSlice({
         return [...prev, item];
       }, []);
     },
+    createEditor: (state, { payload }) => {
+      state = state.push({
+        ...payload,
+        ...(!payload.isTheme && { children: [] }),
+      });
+    },
   },
 });
 
@@ -60,4 +64,5 @@ export const {
   createComment,
   deleteComment,
   updateForum,
+  createEditor,
 } = forumActions;

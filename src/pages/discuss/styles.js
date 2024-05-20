@@ -2,24 +2,16 @@ import styled from 'styled-components';
 
 export const Template = styled.div`
   margin-top: 10px;
-  height: 600px;
+  height: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
-
-  & > div {
-    margin-top: 10px;
-
-    & > span:nth-child(2) {
-      font-weight: 700;
-      margin-left: 20px;
-    }
-  }
 `;
 
 export const Border = styled.div`
   border: 1px solid;
+  margin-bottom: 10px;
   width: 90%;
 `;
 
@@ -30,6 +22,7 @@ export const Comments = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 10px;
+  margin-bottom: 10px;
 
   & > div {
     border-radius: 10px;
@@ -97,63 +90,64 @@ export const Comments = styled.div`
 `;
 
 export const Block = styled.div`
-  & > form {
+  & > div:nth-child(1) {
     display: flex;
     gap: 10px;
 
-    & > div {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-
-      & > button {
-        border: none;
-        display: flex;
-        border-radius: 10px;
-        background: #0b2854e7;
-        cursor: pointer;
-        align-items: center;
-        padding: 0 5px 0 10px;
-
-        & > span {
-          transform: scale(1.4);
-
-          & > svg > path {
-            fill: white;
-          }
-        }
-
-        &:hover {
-          background: #ed7464;
-          border: none;
-        }
-      }
-    }
-  }
-
-  & > button {
-    border: none;
-    border-radius: 10px;
-    background: #0b2854e7;
-    color: white;
-    cursor: pointer;
-    padding: 5px 10px;
-
-    &:hover {
-      background: #ed7464;
-      border: none;
+    & > label {
+      font-weight: 700;
     }
   }
 `;
 
-export const Input = styled.div`
-  & > label {
-    font-weight: 700;
-  }
+export const WrapperEditor = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 600px;
 
-  & > input {
-    width: 400px;
+  & > div:nth-child(2) {
+    & > div:nth-child(2) {
+      &.ck-reset_all {
+        :not(.ck-reset_all-excluded *) {
+          font-size: 10px;
+          border-radius: 10px 10px 0 0;
+        }
+      }
+    }
+
+    & > div:nth-child(3) {
+      &.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+        border-radius: 0 0 10px 10px;
+        font-size: 14px;
+      }
+
+      &.ck.ck-editor__main > .ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+        border-radius: 0 0 10px 10px;
+      }
+    }
+  }
+`;
+
+export const Button = styled.div`
+  display: flex;
+  flex-direction: row !important;
+  justify-content: end;
+  gap: 20px;
+  margin-bottom: 10px;
+
+  & > button {
     border-radius: 10px;
+    background: #0b2854e7;
+    border: none;
     padding: 5px 10px;
+    color: white;
+    min-width: 100px;
+
+    &:hover {
+      cursor: pointer;
+      background: #ed7464;
+      border: none;
+    }
   }
 `;

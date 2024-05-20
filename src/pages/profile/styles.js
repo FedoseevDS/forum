@@ -47,7 +47,6 @@ export const Button = styled.div`
     background: #0b2854e7;
     color: white;
     cursor: pointer;
-    // width: 80px;
 
     &:hover {
       background: #ed7464;

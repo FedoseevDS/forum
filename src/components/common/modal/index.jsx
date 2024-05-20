@@ -14,6 +14,7 @@ export const Modal = ({
   nameButton = { first: 'Сохранить', second: 'Отменить' },
   children,
   isForm = true,
+  markdown,
 }) => {
   if (!onOpen) {
     return;
@@ -36,7 +37,7 @@ export const Modal = ({
   return (
     <Template>
       <div>
-        <span>{title}</span>
+        <span>{`Создать "${title}"`}</span>
         {children}
         {isForm ? (
           <Form
@@ -45,6 +46,7 @@ export const Modal = ({
             nameButton={nameButton}
             dataItem={dataItem}
             onCancel={onCancel}
+            markdown={markdown}
           />
         ) : (
           <button onClick={() => onCancel(false)}>Закрыть</button>

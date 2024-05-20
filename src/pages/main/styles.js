@@ -5,8 +5,9 @@ export const Template = styled(Layout.Content)`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 500px;
+  height: 700px;
   margin-top: 10px;
+  overflow: auto;
 
   & > span {
     font-weight: 700;
