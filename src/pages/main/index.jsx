@@ -10,7 +10,7 @@ import { nanoid } from 'nanoid';
 
 const Main = ({ depth, parentId }) => {
   const dispatch = useDispatch();
-  const { forum, auth } = useSelector((state) => state);
+  const { auth, forum } = useSelector((state) => state);
 
   const [isCreateTheme, setIsCreateTheme] = useState(false);
   const [isCreateDiscuss, setIsCreateDiscuss] = useState(false);
@@ -24,15 +24,15 @@ const Main = ({ depth, parentId }) => {
       dispatch(
         createForum({
           ...submitValue,
-          id: nanoid(),
-          parentId,
           depth,
+          id: nanoid(),
           isTheme: true,
+          parentId,
           user: {
-            userId: auth.userId,
+            email: auth.email,
             name: auth.name,
             signature: auth.signature,
-            email: auth.email,
+            userId: auth.userId,
           },
         }),
       );
@@ -45,15 +45,15 @@ const Main = ({ depth, parentId }) => {
       dispatch(
         createDiscuss({
           ...submitValue,
-          id: nanoid(),
-          parentId,
           depth,
+          id: nanoid(),
           isTheme: false,
+          parentId,
           user: {
-            userId: auth.userId,
+            email: auth.email,
             name: auth.name,
             signature: auth.signature,
-            email: auth.email,
+            userId: auth.userId,
           },
         }),
       );
@@ -103,7 +103,9 @@ const Main = ({ depth, parentId }) => {
       <WrapperTable>
         <thead>
           <tr>
-            <th>{<CheckSquareOutlined />}</th>
+            <th>
+              <CheckSquareOutlined />
+            </th>
             <th>№</th>
             <th>
               <FileOutlined />
@@ -117,12 +119,12 @@ const Main = ({ depth, parentId }) => {
         <tbody>
           {filterData.map((item, index) => (
             <Item
-              number={index + 1}
-              key={item.id}
-              item={item}
               isCheckbox={isCheckbox}
-              setIsCheckbox={setIsCheckbox}
+              item={item}
               itemIds={itemIds}
+              key={item.id}
+              number={index + 1}
+              setIsCheckbox={setIsCheckbox}
               setItemIds={setItemIds}
             />
           ))}
@@ -136,19 +138,19 @@ const Main = ({ depth, parentId }) => {
       <TopBar />
       <Table />
       <Modal
-        onOpen={isCreateTheme}
-        onCancel={setIsCreateTheme}
-        title='Тема'
         config={configTheme}
+        title='Тема'
+        onCancel={setIsCreateTheme}
+        onOpen={isCreateTheme}
         onSave={onSaveTheme}
       />
       <Modal
-        onOpen={isCreateDiscuss}
-        onCancel={setIsCreateDiscuss}
-        title='Обсуждения'
-        config={configDiscuss}
-        onSave={onSaveDiscuss}
         markdown
+        config={configDiscuss}
+        title='Обсуждения'
+        onCancel={setIsCreateDiscuss}
+        onOpen={isCreateDiscuss}
+        onSave={onSaveDiscuss}
       />
     </Template>
   );
