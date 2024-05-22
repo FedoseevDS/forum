@@ -1,12 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { BlankItem, Button, Template, WrapperTable } from './styles';
 import { useCallback, useEffect, useState } from 'react';
+
 import { CheckSquareOutlined, FileOutlined } from '@ant-design/icons';
-import { Item } from 'components/item';
-import { createDiscuss, createForum, deleteForum } from 'store/forum';
-import { Modal } from 'components/common/modal';
-import { configDiscuss, configTheme } from './consts';
 import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Modal } from 'components/common/modal';
+import { Item } from 'components/item';
+
+import { createDiscuss, createForum, deleteForum } from 'store/forum';
+
+import { configDiscuss, configTheme } from './consts';
+import { BlankItem, Button, Template, WrapperTable } from './styles';
 
 const Main = ({ depth, parentId }) => {
   const dispatch = useDispatch();

@@ -1,14 +1,17 @@
-import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
-import { Wrapper } from './styles/global';
+import { CookiesProvider } from 'react-cookie';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from 'store';
+
 import { Footer } from 'components/footer';
-import { theme } from 'const/theme';
 import { Header } from 'components/header';
-import { CookiesProvider } from 'react-cookie';
 import { Root } from 'components/route';
+
+import { theme } from 'const/theme';
+
+import { Wrapper } from './styles/global';
 
 const App = () => (
   <CookiesProvider>

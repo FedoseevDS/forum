@@ -1,12 +1,15 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import sha256 from 'crypto-js/sha256';
+import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom/dist';
-import { Block, Border, Button, Comments, Template, WrapperEditor } from './styles';
-import { nanoid } from 'nanoid';
-import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { createComment, deleteComment } from 'store/forum';
-import sha256 from 'crypto-js/sha256';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import { Block, Border, Button, Comments, Template, WrapperEditor } from './styles';
 
 export const Discuss = () => {
   const dispatch = useDispatch();
@@ -19,13 +22,13 @@ export const Discuss = () => {
   const [isMarkdown, setIsMarkdown] = useState(false);
   const [comment, setComment] = useState('');
 
-  const { forum, auth: user } = useSelector((state) => state);
+  const { auth: user, forum } = useSelector((state) => state);
 
   const item = forum?.find(({ id }) => id === pathname.split('/')?.slice(-1)[0]);
 
   const onBack = useCallback(() => {
     navigate(-1);
-  }, []);
+  }, [navigate]);
 
   const onDeleteComment = useCallback(
     (submitValue) => {
@@ -35,7 +38,7 @@ export const Discuss = () => {
   );
 
   const onSave = () => {
-    dispatch(createComment({ comment, ...user, discussId: item.id, commentId: nanoid() }));
+    dispatch(createComment({ comment, ...user, commentId: nanoid(), discussId: item.id }));
     checkRef.current.editor.setData('');
   };
 
@@ -68,17 +71,17 @@ export const Discuss = () => {
 
     return (
       <Comments>
-        {item.children.map(({ name, signature, comment, commentId, discussId, userId, email }) => (
+        {item.children.map(({ comment, commentId, discussId, email, name, signature, userId }) => (
           <div
             key={commentId}
             style={{
-              background: user.userId === userId ? '#ced8ed' : '#70b768',
               alignSelf: user.userId === userId ? 'end' : 'start',
+              background: user.userId === userId ? '#ced8ed' : '#70b768',
             }}
           >
             <div>
               <div>
-                <img src={icon(email)} />
+                <img alt='аватар пользователя' src={icon(email)} />
               </div>
               <span dangerouslySetInnerHTML={{ __html: comment }} />
             </div>
@@ -97,7 +100,7 @@ export const Discuss = () => {
         ))}
       </Comments>
     );
-  }, [item, user]);
+  }, [item.children, onDeleteComment, user.userId]);
 
   return (
     <Template>
@@ -110,8 +113,6 @@ export const Discuss = () => {
             <label>Комментарий:</label>
             <WrapperEditor ref={editorRef}>
               <CKEditor
-                editor={ClassicEditor}
-                ref={checkRef}
                 config={{
                   placeholder: 'Введите комментарий',
                   toolbar: [
@@ -128,6 +129,8 @@ export const Discuss = () => {
                     'bulletedList',
                   ],
                 }}
+                editor={ClassicEditor}
+                ref={checkRef}
                 onChange={(_, editor) => {
                   setComment(editor.getData());
                 }}

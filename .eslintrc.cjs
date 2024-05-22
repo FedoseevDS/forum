@@ -73,7 +73,7 @@ module.exports = {
           order: 'asc',
         },
         pathGroupsExcludedImportTypes: ['react'],
-        groups: ['builtin', 'external', 'iternal', 'parent', 'sibling', 'index'],
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
         'newlines-between': 'always',
         pathGroups: [
           {
@@ -84,6 +84,21 @@ module.exports = {
           {
             group: 'internal',
             pattern: 'components/**',
+            position: 'after',
+          },
+          {
+            group: 'internal',
+            pattern: 'const/**',
+            position: 'after',
+          },
+          {
+            group: 'internal',
+            pattern: 'pages/**',
+            position: 'after',
+          },
+          {
+            group: 'internal',
+            pattern: 'store/**',
             position: 'after',
           },
         ],
